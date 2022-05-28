@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,34 @@ public class ListarContatosActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater i = getMenuInflater();
         i.inflate(R.menu.menu_principal, menu);
+
+        SearchView sv = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                procuraContato(newText);
+                return false;
+            }
+        });
+
         return true;
     }
+
+    public void procuraContato(String nome){
+        contatosFiltrado.clear();
+        for (Contato c : contatos){
+            if(c.getNome().toLowerCase().contains(nome.toLowerCase())){
+                contatosFiltrado.add(c);
+            }
+        }
+        listView.invalidateViews();
+    }
+
     public void cadastrar(MenuItem item){
         Intent  it = new Intent(this, MainActivity.class);
         startActivity(it);
