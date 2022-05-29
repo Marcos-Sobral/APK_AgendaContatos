@@ -40,5 +40,17 @@ public class ContatoDAO {
         }
         return contatos;
     }
+
+    public void excluir(Contato c){
+        banco.delete("contato", "id = ?", new String[] {c.getId().toString()});
+    }
+
+    public void atualizar(Contato contato){
+        ContentValues values = new ContentValues();
+        values.put("nome", contato.getNome());
+        values.put("email",contato.getEmail());
+        values.put("telefone", contato.getTelefone());
+        banco.update("contato", values, "id = ?", new String[]{contato.getId().toString()});
+    }
 }
 

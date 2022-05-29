@@ -1,15 +1,21 @@
 package com.agenda.agendacontato;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +38,7 @@ public class ListarContatosActivity extends AppCompatActivity {
         contatosFiltrado.addAll(contatos);
         ArrayAdapter<Contato> adaptador = new ArrayAdapter<Contato>(this, android.R.layout.simple_list_item_1, contatosFiltrado);
         listView.setAdapter(adaptador);
+        registerForContextMenu(listView);
     }
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater i = getMenuInflater();
@@ -54,6 +61,12 @@ public class ListarContatosActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater i = getMenuInflater();
+        i.inflate((R.menu.menu_contexto), menu);
+    }
+
     public void procuraContato(String nome){
         contatosFiltrado.clear();
         for (Contato c : contatos){
@@ -64,8 +77,37 @@ public class ListarContatosActivity extends AppCompatActivity {
         listView.invalidateViews();
     }
 
+    public void excluir(MenuItem item){
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+    final Contato contatoExcluir = contatosFiltrado.get(menuInfo.position);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Atenção")
+                .setMessage("Realmente deseja excluir este contato ? ")
+                .setNegativeButton("NÃO", null)
+                .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        contatosFiltrado.remove(contatoExcluir);
+                        contatos.remove(contatoExcluir);
+                        dao.excluir(contatoExcluir);
+                        listView.invalidateViews();
+                    }
+                }).create();
+            dialog.show();
+
+    }
+
     public void cadastrar(MenuItem item){
         Intent  it = new Intent(this, MainActivity.class);
+        startActivity(it);
+    }
+
+    public void atualizar(MenuItem item){
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final Contato contatoAtualizar = contatosFiltrado.get(menuInfo.position);
+        Intent it = new Intent(this, MainActivity.class);
+        it.putExtra("contato", contatoAtualizar);
         startActivity(it);
     }
 
