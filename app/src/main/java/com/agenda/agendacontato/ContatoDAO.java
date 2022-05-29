@@ -23,12 +23,14 @@ public class ContatoDAO {
         values.put("nome", contato.getNome());
         values.put("email",contato.getEmail());
         values.put("telefone", contato.getTelefone());
+        values.put("endereco",contato.getEndereco());
+        values.put("nascimento", contato.getNascimento());
         return banco.insert("contato", null, values);
     }
 
     public List<Contato> obterTodos(){
         List<Contato> contatos = new ArrayList<>();
-        Cursor cursor = banco.query("contato", new String[]{"id","nome","email","telefone"},
+        Cursor cursor = banco.query("contato", new String[]{"id","nome","email","telefone","endereco","nascimento"},
                 null,null,null,null, null);
         while (cursor.moveToNext()){
             Contato c = new Contato();
@@ -36,6 +38,8 @@ public class ContatoDAO {
             c.setNome(cursor.getString(1));
             c.setEmail(cursor.getString(2));
             c.setTelefone(cursor.getString(3));
+            c.setEndereco(cursor.getString(4));
+            c.setNascimento(cursor.getString(5));
             contatos.add(c);
         }
         return contatos;
@@ -50,6 +54,8 @@ public class ContatoDAO {
         values.put("nome", contato.getNome());
         values.put("email",contato.getEmail());
         values.put("telefone", contato.getTelefone());
+        values.put("endereco", contato.getEndereco());
+        values.put("nascimento", contato.getNascimento());
         banco.update("contato", values, "id = ?", new String[]{contato.getId().toString()});
     }
 }

@@ -8,6 +8,8 @@ public class Contato implements Serializable {
     private String nome;
     private String email;
     private String telefone;
+    private String endereco;
+    private String nascimento;
 
     public Integer getId() {
         return id;
@@ -41,9 +43,17 @@ public class Contato implements Serializable {
         this.telefone = telefone;
     }
 
+    public String getEndereco() { return endereco; }
+
+    public void setEndereco(String endereco) { this.endereco = endereco; }
+
+    public String getNascimento() { return nascimento; }
+
+    public void setNascimento(String nascimento) { this.nascimento = nascimento; }
+
     @Override
     public String toString(){
-        return nome +":  "+ telefone +"  "+ email;
+        return nome + ":  " + telefone + "\n" + email+"\n" + endereco + "\n" + nascimento;
         //return nome;
     }
 }

@@ -38,12 +38,16 @@ public class ContatoAdapter extends BaseAdapter {
         TextView nome = V.findViewById(R.id.txt_nome);
         TextView email = V.findViewById(R.id.txt_email);
         TextView telefone = V.findViewById(R.id.txt_telefone);
+        TextView endereco = V.findViewById(R.id.txt_endereco);
+        TextView nascimento = V.findViewById(R.id.txt_nascimento);
 
         Contato c = contatos.get(i);
 
         nome.setText(c.getNome());
         email.setText(c.getEmail());
         telefone.setText(c.getTelefone());
+        endereco.setText(c.getEndereco());
+        nascimento.setText(c.getNascimento());
         return V;
     }
 }

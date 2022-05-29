@@ -20,7 +20,7 @@ public class Conexao extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table contato(id integer primary key autoincrement," +
-                "nome varchar(50), email varchar(50), telefone varchar(50))");
+                "nome varchar(50), email varchar(50), telefone varchar(50), endereco varchar(50), nascimento varchar(50))");
     }
 
     @Override
