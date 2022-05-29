@@ -37,6 +37,7 @@ public class ListarContatosActivity extends AppCompatActivity {
         contatos = dao.obterTodos();
         contatosFiltrado.addAll(contatos);
         ArrayAdapter<Contato> adaptador = new ArrayAdapter<Contato>(this, android.R.layout.simple_list_item_1, contatosFiltrado);
+        //ContatoAdapter adaptador = new ContatoAdapter(this, contatosFiltrado);
         listView.setAdapter(adaptador);
         registerForContextMenu(listView);
     }
