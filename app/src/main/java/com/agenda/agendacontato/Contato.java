@@ -43,7 +43,7 @@ public class Contato implements Serializable {
 
     @Override
     public String toString(){
-        return nome +":  "+ telefone;
+        return nome +":  "+ telefone +"  "+ email;
         //return nome;
     }
 }
