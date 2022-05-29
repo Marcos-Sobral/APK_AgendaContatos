@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
             nascimento.setText(contato.getNascimento());
         }
     }
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater i = getMenuInflater();
+        i.inflate(R.menu.menu_voltar, menu);
+        return true;
+    }
+
+    public void voltar(MenuItem item){
+        Intent  it = new Intent(this, ListarContatosActivity.class);
+        startActivity(it);
+    }
 
     public void salvar(View view){
         if (contato == null) {
@@ -52,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
             contato.setNascimento(nascimento.getText().toString());
             long id = dao.inserir(contato);
             Toast.makeText(this, "Contato Salvo com id" + id, Toast.LENGTH_SHORT).show();
+            Intent  it = new Intent(this, ListarContatosActivity.class);
+            startActivity(it);
         }else {
             contato.setNome(nome.getText().toString());
             contato.setEmail(email.getText().toString());
@@ -60,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
             contato.setNascimento(nascimento.getText().toString());
             dao.atualizar(contato);
             Toast.makeText(this, "Contato foi atualziado", Toast.LENGTH_SHORT).show();
+            Intent  it = new Intent(this, ListarContatosActivity.class);
+            startActivity(it);
         }
     }
 }
